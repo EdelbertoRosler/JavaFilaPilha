@@ -10,7 +10,7 @@ import java.util.Queue;
 import java.util.Scanner;
 import java.util.Stack;
 
-public class Atividade4 {
+public class CalculadoraMain {
 
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
@@ -19,41 +19,45 @@ public class Atividade4 {
         String[] Simbolos = exp.split(" ");
 
 
-        Stack<String> pilhaConv = new Stack();//cria uma pilha vazia
-        Queue<String> filaInFixa = new LinkedList(); //cria uma fila vazia
-        Queue<String> filaPosFixa = new LinkedList(); //cria uma fila vazia
+        Stack<Simbolo> pilhaConv = new Stack();//cria uma pilha vazia
+        Queue<Simbolo> filaInFixa = new LinkedList(); //cria uma fila vazia
+        Queue<Simbolo> filaPosFixa = new LinkedList(); //cria uma fila vazia
 
         for(String simb : Simbolos) {
-            filaInFixa.offer(simb);
-
-            while (! filaInFixa.isEmpty()){
-                filaInFixa.poll();
-                if(isOperando()){
-                    filaPosFixa.offer(simb);
-                }
-                else if (isAbreParenteses()){
-                    pilhaConv.push(simb);
-                }
-                else if (isOperador()){
-                    while ((! pilhaConv.isEmpty()) && (pilhaConv.peek().prioridadeOperador()) => simb.filaInFixa){
-                        filaPosFixa.offer(pilhaConv.pop());
-                    }
-                    pilhaConv.push(simb);
-                }
-                else if (teste.isFechaParenteses()){
-                    while (! pilhaConv.peek() isAbreParenteses()){
-                        filaPosFixa.offer(pilhaConv.pop(simb));
-                    }
-                    pilhaConv.push(simb);
-                }
-            }
-            // while (! pilhaConv.isEmpty()){
-            //    filaPosFixa.offer(pilhaConv.pop(simb));
+            filaInFixa.offer(new Simbolo(simb));
         }
+        while (! filaInFixa.isEmpty()) {
+            Simbolo simbfila = filaInFixa.poll();//desinfilera e retorna o elemento para simbfila
+            if (simbfila.isOperando()) {//se o simbfila é operando...
+                filaPosFixa.offer(simbfila);//filaPosfixa recebe o operando
+            }
+            else if (simbfila.isAbreParenteses()) {//se o simbfila é abreParenteses...
+                pilhaConv.push(simbfila);//pilhaConv recebe o abreParenteses
+            }
+            else if (simbfila.isOperador()) {//se o simbfila é operador...
+                while ((!pilhaConv.isEmpty()) &&//verifica a prioridade do topo da pilha em relação ao simbfila
+                        (pilhaConv.peek().verificarPrioridaade() >= simbfila.verificarPrioridaade())) {
+                    Simbolo simbPilha = pilhaConv.pop();//cria o simbPilha para receber o simbfila
+                    filaPosFixa.offer(simbPilha);
+                }
+                pilhaConv.push(simbfila);//empilha o simbfila
+            }
+            else if (simbfila.isFechaParenteses()){
+                while (! pilhaConv.peek().isFechaParenteses()){
+                    Simbolo simbPilha = pilhaConv.pop();
+                    filaPosFixa.offer(simbPilha);
+                }
+                pilhaConv.pop();
+            }
+        }
+        while (! pilhaConv.isEmpty()){
+            Simbolo simbPilha = pilhaConv.pop();
+            filaPosFixa.offer(simbPilha);
+        }
+        System.out.println(filaPosFixa);
     }
-    //System.out.println(filaPosFixa);
 }
-}
+
 /*
 Stack<Character> minhaPilha = new Stack();// cria uma pilha
 pilha push('a'); //insere um elemento na pilha

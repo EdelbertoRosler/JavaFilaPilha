@@ -10,7 +10,6 @@ class Simbolo{
         this.simb = simb;
     }
 
-
     public boolean isOperando(){
         return Character.isDigit(this.simb.charAt(0));
     }
@@ -43,5 +42,9 @@ class Simbolo{
         else {
             return -1;
         }
+    }
+
+    public String toString(){
+        return this.simb;
     }
 }
