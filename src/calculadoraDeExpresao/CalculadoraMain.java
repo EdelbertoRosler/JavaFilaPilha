@@ -27,22 +27,22 @@ public class CalculadoraMain {
             filaInFixa.offer(new Simbolo(simb));
         }
         while (! filaInFixa.isEmpty()) {
-            Simbolo simbfila = filaInFixa.poll();//desinfilera e retorna o elemento para simbfila
-            if (simbfila.isOperando()) {//se o simbfila é operando...
-                filaPosFixa.offer(simbfila);//filaPosfixa recebe o operando
+            Simbolo simbFila = filaInFixa.poll();//desinfilera e retorna o elemento para simbfila
+            if (simbFila.isOperando()) {//se o simbfila é operando...
+                filaPosFixa.offer(simbFila);//filaPosfixa recebe o operando
             }
-            else if (simbfila.isAbreParenteses()) {//se o simbfila é abreParenteses...
-                pilhaConv.push(simbfila);//pilhaConv recebe o abreParenteses
+            else if (simbFila.isAbreParenteses()) {//se o simbfila é abreParenteses...
+                pilhaConv.push(simbFila);//pilhaConv recebe o abreParenteses
             }
-            else if (simbfila.isOperador()) {//se o simbfila é operador...
+            else if (simbFila.isOperador()) {//se o simbfila é operador...
                 while ((!pilhaConv.isEmpty()) &&//verifica a prioridade do topo da pilha em relação ao simbfila
-                        (pilhaConv.peek().verificarPrioridaade() >= simbfila.verificarPrioridaade())) {
+                        (pilhaConv.peek().verificarPrioridaade() >= simbFila.verificarPrioridaade())) {
                     Simbolo simbPilha = pilhaConv.pop();//cria o simbPilha para receber o simbfila
                     filaPosFixa.offer(simbPilha);
                 }
-                pilhaConv.push(simbfila);//empilha o simbfila
+                pilhaConv.push(simbFila);//empilha o simbfila
             }
-            else if (simbfila.isFechaParenteses()){
+            else if (simbFila.isFechaParenteses()){
                 while (! pilhaConv.peek().isFechaParenteses()){
                     Simbolo simbPilha = pilhaConv.pop();
                     filaPosFixa.offer(simbPilha);
@@ -55,6 +55,22 @@ public class CalculadoraMain {
             filaPosFixa.offer(simbPilha);
         }
         System.out.println(filaPosFixa);
+//************************************************************************
+        Stack<Simbolo> pilhaCalc = new Stack();//cria uma pilha vazia
+
+        while (! filaPosFixa.isEmpty()){
+            Simbolo simbFila = filaPosFixa.poll();
+            if (simbFila.isOperando()){
+                pilhaCalc.push(simbFila);
+            }
+            else if (simbFila.isOperador()){
+                Simbolo operandoA = pilhaCalc.pop();
+                Simbolo operandoB = pilhaCalc.pop();
+                Simbolo resultado = operandoB= simbFila= operandoA;
+                pilhaCalc.push(resultado);
+            }
+        }
+        System.out.println(pilhaCalc);
     }
 }
 
