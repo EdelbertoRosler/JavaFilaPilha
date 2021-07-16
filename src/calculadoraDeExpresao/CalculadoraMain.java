@@ -1,10 +1,8 @@
 package calculadoraDeExpresao;
-
 /**
  *
  * @author edelb
  */
-
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
@@ -17,7 +15,6 @@ public class CalculadoraMain {
 
         String exp = scan.nextLine();
         String[] Simbolos = exp.split(" ");
-
 
         Stack<Simbolo> pilhaConv = new Stack();//cria uma pilha vazia
         Queue<Simbolo> filaInFixa = new LinkedList(); //cria uma fila vazia
@@ -42,56 +39,48 @@ public class CalculadoraMain {
                 }
                 pilhaConv.push(simbFila);//empilha o simbfila
             }
-            else if (simbFila.isFechaParenteses()){
-                while (! pilhaConv.peek().isFechaParenteses()){
+            else if (simbFila.isFechaParenteses()){ // caso o simbfila for fecha parênteses
+                while (! pilhaConv.peek().isAbreParenteses()){
                     Simbolo simbPilha = pilhaConv.pop();
                     filaPosFixa.offer(simbPilha);
                 }
                 pilhaConv.pop();
             }
         }
-        while (! pilhaConv.isEmpty()){
-            Simbolo simbPilha = pilhaConv.pop();
-            filaPosFixa.offer(simbPilha);
+        while (! pilhaConv.isEmpty()){//enquanto a pilha não está vazia
+            Simbolo simbPilha = pilhaConv.pop();//empilha no simbPila
+            filaPosFixa.offer(simbPilha);//enfileira na filaPosFixa os elementos que estão na simbPilha
         }
-        System.out.println(filaPosFixa);
-//************************************************************************
-        Stack<Simbolo> pilhaCalc = new Stack();//cria uma pilha vazia
+        System.out.println(filaPosFixa);//imprime a fila com todos o elementos
+
+//*************************Cálculo***********************************************
+        Stack<Integer> pilhaCalc = new Stack();//cria uma pilha vazia
 
         while (! filaPosFixa.isEmpty()){
             Simbolo simbFila = filaPosFixa.poll();
-            if (simbFila.isOperando()){
-                pilhaCalc.push(simbFila);
+            if (simbFila.isOperando()){//testa se o elemento é operando
+                pilhaCalc.push(simbFila.converteInteriro());
             }
-            else if (simbFila.isOperador()){
-                Simbolo operandoA = pilhaCalc.pop();
-                Simbolo operandoB = pilhaCalc.pop();
-                Simbolo resultado = operandoB= simbFila= operandoA;
+            else if (simbFila.isOperador()){//testa se o elemento é operador
+                int operandoA = pilhaCalc.pop();
+                int operandoB = pilhaCalc.pop();
+                int resultado;
+
+                if (simbFila.toString().equals("+")){
+                    resultado = operandoB + operandoA;
+                }
+                else if (simbFila.toString().equals("-")){
+                    resultado = operandoB - operandoA;
+                }
+                else if (simbFila.toString().equals("*")){
+                    resultado = operandoB * operandoA;
+                }
+                else {
+                    resultado = operandoB / operandoA;
+                }
                 pilhaCalc.push(resultado);
             }
         }
-        System.out.println(pilhaCalc);
+        System.out.println(pilhaCalc.peek());// no topo da pilhaCalc está o resultado da expressão
     }
 }
-
-/*
-Stack<Character> minhaPilha = new Stack();// cria uma pilha
-pilha push('a'); //insere um elemento na pilha
-pilha push('b');
-pilha push('c');
-
-System.out.print(minhaPilha);
-System.out.print(minhaPilha.pop()); //desempilha e retorna o elemento
-while(! minhaPilha.isEmpty()){ //enquanto a pilha n está vazia, vai desempilhando
-    System.out.println(pilha.pop());
-}
-************************************
-Queue<Character> minhaFila = new LinkedList(); //cria uma fila
-minhafila.offer('a'); //insere um elemento na fila
-minhafila.offer('b');
-minhafila.offer('c');
-System.out.println(minhaFila);
-System.out.println(minhaFila.poll); desenfilera e retorna o elemento
-While(! mihaFila.isEmpty()){
-    System.out.println(minhaFila.poll());
-*/

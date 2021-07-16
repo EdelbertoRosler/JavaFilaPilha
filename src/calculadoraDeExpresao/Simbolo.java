@@ -15,25 +15,25 @@ class Simbolo{
     }
 
     public boolean isOperador(){
-        return this.simb.equals('+') ||
-                this.simb.equals('-') ||
-                this.simb.equals('*') ||
-                this.simb.equals('/');
+        return this.simb.equals("+") ||
+                this.simb.equals("-") ||
+                this.simb.equals("*") ||
+                this.simb.equals("/");
     }
 
     public boolean isAbreParenteses(){
-        return this.simb.equals('(');
+        return this.simb.equals("(");
     }
 
     public boolean isFechaParenteses(){
-        return this.simb.equals(')');
+        return this.simb.equals(")");
     }
 
     public int verificarPrioridaade(){
-        if (this.simb.equals('+') || this.simb.equals('-')){
+        if (this.simb.equals("+") || this.simb.equals("-")){
             return 1;
         }
-        if (this.simb.equals('*') || this.simb.equals('/')){
+        if (this.simb.equals("*") || this.simb.equals("/")){
             return 2;
         }
         else if (this.isAbreParenteses()){
@@ -47,4 +47,11 @@ class Simbolo{
     public String toString(){
         return this.simb;
     }
+
+    public int converteInteriro(){
+        return Integer.parseInt(this.simb);
+    }
+
 }
+
+
