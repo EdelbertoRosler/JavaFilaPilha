@@ -1,7 +1,8 @@
 package calculadoraDeExpresao;
 /**
- *
- * @author edelb
+ * Estrutura de dados filas, pilhas
+ * Baseado na aula do prof. Felipe Sampaio - IFRS
+ * @author edelberto Hermann Rösler
  */
 import java.util.LinkedList;
 import java.util.Queue;
